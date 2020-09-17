@@ -11,7 +11,7 @@ services:
     volumes:
       - ./laravel:/var/www
     working_dir: /var/www
-    entrypoint: dockerize -wait tcp://db:3306 -timeout 50s php-fpm
+    entrypoint: dockerize -wait tcp://db:3306 -timeout 50s ./entrypoint.sh
     networks:
       - app-network
     depends_on:
