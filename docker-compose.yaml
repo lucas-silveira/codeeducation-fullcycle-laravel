@@ -37,6 +37,7 @@ services:
     container_name: db
     restart: always
     tty: true
+    command: --innodb-use-native-aio=0
     ports:
       - 3306:3306
     volumes:
