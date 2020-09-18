@@ -11,7 +11,12 @@ services:
     volumes:
       - ./laravel:/var/www
     working_dir: /var/www
-    entrypoint: dockerize -wait tcp://db:3306 -timeout 50s ./entrypoint.sh
+    entrypoint: dockerize -template ./.docker/.env:.env -wait tcp://db:3306 -timeout 50s ./entrypoint.sh
+    environment:
+      - DB_HOST=db
+      - DB_DATABASE=laravel
+      - DB_USERNAME=root
+      - DB_PASSWORD=root
     networks:
       - app-network
     depends_on:
