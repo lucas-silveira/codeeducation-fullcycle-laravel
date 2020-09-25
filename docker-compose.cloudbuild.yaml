@@ -1,0 +1,62 @@
+version: '3'
+
+networks:
+  app-network:
+    driver: bridge
+
+services:
+  app:
+    build: ./laravel
+    container_name: app
+    volumes:
+      - ./laravel:/var/www
+    working_dir: /var/www
+    # entrypoint: dockerize -template ./.docker/.env:.env -wait tcp://db:3306 -timeout 50s ./entrypoint.sh
+    # environment:
+    #   - DB_HOST=db
+    #   - DB_DATABASE=laravel
+    #   - DB_USERNAME=root
+    #   - DB_PASSWORD=root
+    networks:
+      - app-network
+    depends_on:
+      - db
+      - redis
+
+  nginx:
+    build: ./nginx
+    container_name: nginx
+    restart: always
+    tty: true # habilita o modo interativo
+    ports:
+      - 8000:80
+    volumes:
+      - ./nginx:/var/www
+    networks:
+      - app-network
+    depends_on:
+      - app
+
+  db:
+    build: ./mysql
+    container_name: db
+    restart: always
+    tty: true
+    command: --innodb-use-native-aio=0
+    ports:
+      - 3306:3306
+    volumes:
+      - ./mysql/files:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=laravel
+      - MYSQL_USER=root
+      - MYSQL_ROOT_PASSWORD=root
+    networks:
+      - app-network
+  
+  redis:
+    image: redis:alpine
+    expose:
+      - 6379
+    networks:
+      - app-network
