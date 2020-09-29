@@ -7,16 +7,12 @@ jobs:
   include:
     - stage: "Prepare"
       name: "Subindo containers"
-      script: docker-compose -f docker-compose.travis.yaml up -d
-
-    - name: "Copiando .env"
-      script: docker exec -t app cp .env.example .env
-
-    - name: "Command: Laravel key:generate"
-      script: docker exec -t app php artisan key:generate
-
-    - name: "Execute entrypoint.sh"
-      script: docker exec -t app ./entrypoint.sh
+      script:
+        - docker-compose -f docker-compose.travis.yaml up -d
+        - docker ps
+        - docker exec -t app cp .env.example .env
+        - docker exec -t app php artisan key:generate
+        - docker exec -t app ./entrypoint.sh
 
     - stage: "Tests"
       script: docker exec -t app phpunit -c ./phpunit.xml
