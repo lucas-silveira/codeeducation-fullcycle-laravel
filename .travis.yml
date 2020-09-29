@@ -7,7 +7,7 @@ jobs:
   include:
     - stage: "Prepare"
       name: "Subindo containers"
-      script: docker-compose -f docker-compose.cloudbuild.yaml up -d
+      script: docker-compose -f docker-compose.travis.yaml up -d
 
     - name: "Copiando .env"
       script: docker exec -t app cp .env.example .env
