@@ -8,3 +8,12 @@ jobs:
     - stage: "Prepare"
       name: "Subindo containers"
       script: docker-compose -f docker-compose.cloudbuild.yaml up -d
+
+      name: "Copiando .env"
+      script: docker exec -t app cp .env.example .env
+
+      name: "Command: Laravel key:generate"
+      script: docker exec -t app php artisan key:generate
+
+      name: "Execute entrypoint.sh"
+      script: docker exec -t app ./entrypoint.sh
