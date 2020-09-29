@@ -3,9 +3,6 @@ language: php
 services:
   - docker
 
-before_install:
-  - chmod +x entrypoint.sh
-
 jobs:
   include:
     - stage: "Prepare"
@@ -14,6 +11,7 @@ jobs:
         - docker-compose -f docker-compose.travis.yaml up -d
         - docker ps
         - docker exec -t app cp .env.example .env
+        - chmod +x entrypoint.sh
         - docker exec -t app ./entrypoint.sh
 
     - stage: "Tests"
