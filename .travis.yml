@@ -17,3 +17,6 @@ jobs:
 
       name: "Execute entrypoint.sh"
       script: docker exec -t app ./entrypoint.sh
+
+    - stage: "Tests"
+      script: docker exec -t app phpunit -c ./phpunit.xml
