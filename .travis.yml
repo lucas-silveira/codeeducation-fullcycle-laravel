@@ -3,6 +3,9 @@ language: php
 services:
   - docker
 
+before_install:
+  - chmod +x entrypoint.sh
+
 jobs:
   include:
     - stage: "Prepare"
