@@ -11,7 +11,7 @@ jobs:
         - docker-compose -f docker-compose.travis.yaml up -d
         - docker ps
         - docker exec -t app cp .env.example .env
-        - chmod +x entrypoint.sh
+        - chmod +x ./entrypoint.sh
         - docker exec -t app ./entrypoint.sh
 
     - stage: "Tests"
