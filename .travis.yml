@@ -5,8 +5,7 @@ services:
 
 jobs:
   include:
-    - stage: "Prepare"
-      name: "Subindo containers"
+    - stage: "Build"
       script:
         - docker-compose -f docker-compose.travis.yaml up -d
         - docker ps
